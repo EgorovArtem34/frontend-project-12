@@ -1,35 +1,46 @@
-// import axios from 'axios';
+import axios from 'axios';
 import React, { useEffect, useRef, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { Button, Form, Row, Card, } from 'react-bootstrap';
+import { Button, Form, Row, Card } from 'react-bootstrap';
 import logo from '../assets/avatar.jpg';
 import * as yup from 'yup';
+import routes from '../hooks/routes.js';
+import useAuth from '../hooks/index.jsx';
 
 const LoginPage = () => {
   const inputEl = useRef(null);
   const [authFailed, setAuthFailed] = useState(false);
+  const auth = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const signUpSchema = yup.object().shape({
     username: yup.string()
       .trim()
-      .min(3, "Не менее 3 символов")
       .required("Обязательное поле"),
     password: yup.string()
       .trim()
-      .min(3, "Не менее 3 символов")
       .required("Обязательное поле"),
   });
 
-  const generateSubmit = async (e) => {
-    console.log('generate!')
+  const generateSubmit = async (values) => {
     setAuthFailed(false);
+
     try {
-      console.log('success', e);
-      // const { username, password } = e;
-    } catch (e) {
-      console.log('catch error');
-      setAuthFailed(true);
-      // formik.setSubmitting(false);
+      const response = await axios.post(routes.loginPath(), values);
+      localStorage.setItem('user', JSON.stringify(response.data));
+      auth.logIn();
+      const { from } = location.state || { from: { pathname: '/' } };
+      navigate(from);
+    } catch (err) {
+      formik.setSubmitting(false);
+      if (err.isAxiosError && err.response.status === 401) {
+        setAuthFailed(true);
+        inputEl.current.select();
+        return;
+      }
+      throw err;
     }
   };
 
