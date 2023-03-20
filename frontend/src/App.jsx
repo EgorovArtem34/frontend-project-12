@@ -15,9 +15,19 @@ import LoginPage from './components/LoginPage';
 import ChatPage from './components/ChatPage';
 import NotFoundPage from './components/NotFoundPage';
 
-const AuthProvider = ({ children }) => {
-  const [loggedIn, setLoggedIn] = useState(false);
+const getAuthHeader = () => {
+  const userId = JSON.parse(localStorage.getItem('user'));
 
+  if (userId && userId.token) {
+    return { Authorization: `Bearer ${userId.token}` };
+  }
+
+  return {};
+};
+
+const AuthProvider = ({ children }) => {
+  const currentUser = JSON.parse(localStorage.getItem('user'));
+  const [loggedIn, setLoggedIn] = useState(currentUser ? true : false);
   const logIn = () => setLoggedIn(true);
   const logOut = () => {
     localStorage.removeItem('userId');
@@ -25,7 +35,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={{ loggedIn, logIn, logOut, getAuthHeader, currentUser }}>
       {children}
     </AuthContext.Provider>
   );
@@ -44,6 +54,7 @@ const AuthButton = () => {
 const PrivateRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
+
   return (
     auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
   );
@@ -53,26 +64,22 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div className="h-100">
-          <div className="h-100">
-            <div className="d-flex flex-column h-100">
-              <Navbar bg="white" expand="lg" className="shadow-sm">
-                <Container>
-                  <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                  <AuthButton />
-                </Container>
-              </Navbar>
-              <Routes>
-                <Route path='/' element={(
-                  <PrivateRoute>
-                    <ChatPage />
-                  </PrivateRoute>
-                )} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </div>
-          </div>
+        <div className="d-flex flex-column h-100">
+          <Navbar bg="white" expand="lg" className="shadow-sm">
+            <Container>
+              <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+              <AuthButton />
+            </Container>
+          </Navbar>
+          <Routes>
+            <Route path='/' element={(
+              <PrivateRoute>
+                <ChatPage />
+              </PrivateRoute>
+            )} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="*" element={<NotFoundPage />} />
+          </Routes>
         </div>
       </Router>
     </AuthProvider>
