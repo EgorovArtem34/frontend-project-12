@@ -10,15 +10,12 @@ import {
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { Button, Navbar, Container } from 'react-bootstrap';
-import i18next from 'i18next';
-import { initReactI18next, I18nextProvider } from 'react-i18next';
 import store from './slices/index.js';
-import AuthContext from './contexts/index.jsx';
-import useAuth from './hooks/index.jsx';
-import LoginPage from './components/LoginPage';
-import ChatPage from './components/ChatPage';
-import NotFoundPage from './components/NotFoundPage';
-import ru from './locales/ru.js';
+import contexts from './contexts/index.jsx';
+import hooks from './hooks/index.jsx';
+import LoginPage from './components/LoginPage.jsx';
+import ChatPage from './components/ChatPage.jsx';
+import NotFoundPage from './components/NotFoundPage.jsx';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('user'));
@@ -31,6 +28,7 @@ const getAuthHeader = () => {
 };
 
 const AuthProvider = ({ children }) => {
+  const { AuthContext } = contexts;
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const [loggedIn, setLoggedIn] = useState(!!currentUser);
   const logIn = useCallback(() => {
@@ -55,6 +53,7 @@ const AuthProvider = ({ children }) => {
 };
 
 const AuthButton = () => {
+  const { useAuth } = hooks;
   const auth = useAuth();
 
   return (
@@ -65,6 +64,7 @@ const AuthButton = () => {
 };
 
 const PrivateRoute = ({ children }) => {
+  const { useAuth } = hooks;
   const auth = useAuth();
   const location = useLocation();
 
@@ -73,19 +73,11 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-const App = () => {
-  const i18n = i18next.createInstance();
-  i18n
-    .use(initReactI18next)
-    .init({
-      resources: { ru },
-      lng: 'ru',
-    });
-
-  return (
-    <Provider store={store}>
-      <AuthProvider>
-        <I18nextProvider i18n={i18n}>
+const App = () => (
+  <div className="h-100">
+    <div className="h-100" id="chat">
+      <Provider store={store}>
+        <AuthProvider>
           <Router>
             <div className="d-flex flex-column h-100">
               <Navbar bg="white" expand="lg" className="shadow-sm">
@@ -108,10 +100,10 @@ const App = () => {
               </Routes>
             </div>
           </Router>
-        </I18nextProvider>
-      </AuthProvider>
-    </Provider>
-  );
-};
+        </AuthProvider>
+      </Provider>
+    </div>
+  </div>
+);
 
 export default App;
