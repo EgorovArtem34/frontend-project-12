@@ -56,10 +56,13 @@ const AuthProvider = ({ children }) => {
 const AuthButton = () => {
   const { useAuth } = hooks;
   const auth = useAuth();
-
+  const handleBtn = () => {
+    localStorage.removeItem('user');
+    auth.logOut();
+  };
   return (
     auth.loggedIn
-      ? <Button onClick={auth.logOut}>Выйти</Button>
+      ? <Button onClick={handleBtn}>Выйти</Button>
       : null
   );
 };
