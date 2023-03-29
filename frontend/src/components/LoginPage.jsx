@@ -8,11 +8,12 @@ import {
 import * as yup from 'yup';
 import logo from '../assets/avatar.jpg';
 import routes from '../hooks/routes.js';
-import useAuth from '../hooks/index.jsx';
+import hooks from '../hooks/index.jsx';
 
 const LoginPage = () => {
   const inputEl = useRef(null);
   const [authFailed, setAuthFailed] = useState(false);
+  const { useAuth } = hooks;
   const auth = useAuth();
   const location = useLocation();
   const navigate = useNavigate();

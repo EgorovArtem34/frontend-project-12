@@ -15,6 +15,7 @@ import contexts from './contexts/index.jsx';
 import hooks from './hooks/index.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import ChatPage from './components/ChatPage.jsx';
+import RegistrationPage from './components/RegistrationPage.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
 
 const getAuthHeader = () => {
@@ -96,6 +97,7 @@ const App = () => (
                   )}
                 />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<RegistrationPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Routes>
             </div>
