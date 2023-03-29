@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import hooks from '../../hooks/index.jsx';
 
 const Messages = () => {
+  const { t } = useTranslation();
   const { useAuth, useSocket } = hooks;
   const socket = useSocket();
   const { currentUser: { username } } = useAuth();
@@ -16,7 +17,6 @@ const Messages = () => {
   const [currentChannel] = channels.filter((channel) => channel.id === currentChannelId);
   const messages = useSelector(({ messagesSlice }) => messagesSlice.messages);
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
-  const { t } = useTranslation();
   const inputEl = useRef(null);
 
   useEffect(() => {
@@ -35,7 +35,7 @@ const Messages = () => {
   const signUpSchema = yup.object().shape({
     body: yup.string()
       .trim()
-      .required('Обязательное поле'),
+      .required(t('errors.required')),
   });
   const formik = useFormik({
     initialValues: {
@@ -60,7 +60,7 @@ const Messages = () => {
             </b>
           </p>
           <span className="text-muted">
-            {t('messages.key', { count: currentMessages.length })}
+            {t('messages.count.key', { count: currentMessages.length })}
           </span>
         </div>
         <div id="messages-box" className="chat-messages overflow-auto px-5">
@@ -78,8 +78,8 @@ const Messages = () => {
                 name="body"
                 onChange={formik.handleChange}
                 value={formik.values.body}
-                placeholder="Введите сообщение..."
-                aria-label="Новое сообщение"
+                placeholder={t('messages.form.placeholder')}
+                aria-label={t('messages.form.ariaLabel')}
                 aria-describedby="basic-addon2"
                 className="border-0 p-0 ps-2"
                 ref={inputEl}
@@ -88,7 +88,7 @@ const Messages = () => {
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
                   <BsArrowRightSquare />
                 </svg>
-                <span className="visually-hidden">Отправить</span>
+                <span className="visually-hidden">{t('messages.form.send')}</span>
               </Button>
             </InputGroup>
           </Form>

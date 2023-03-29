@@ -1,10 +1,12 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { BsPlusSquare } from 'react-icons/bs';
+import { useTranslation } from 'react-i18next';
 import { actions } from '../../slices/channelsSlice.js';
 import { showModal } from '../../slices/modalsSlice.js';
 
 const Channels = () => {
+  const { t } = useTranslation();
   const dispatch = useDispatch();
   const channelsData = useSelector(({ channelsSlice }) => channelsSlice.channelsData);
   const { channels, currentChannelId } = channelsData;
@@ -43,10 +45,10 @@ const Channels = () => {
 
       <Dropdown.Menu>
         <Dropdown.Item onClick={() => setShowModal('removeChannel', channel.id)}>
-          Удалить
+          {t('channels.remove')}
         </Dropdown.Item>
         <Dropdown.Item onClick={() => setShowModal('renameChannel', channel.id)}>
-          Переименовать
+          {t('channels.rename')}
         </Dropdown.Item>
       </Dropdown.Menu>
     </Dropdown>
@@ -55,7 +57,7 @@ const Channels = () => {
   return (
     <div className="col-4 col-md-2 border-end px-0 bg-light flex-column h-100 d-flex">
       <div className="d-flex mt-1 justify-content-between mb-2 ps-4 pe-2 p-4">
-        <b>Каналы</b>
+        <b>{t('channels.header')}</b>
         <Button onClick={() => setShowModal('addChannel')} className="p-0 text-primary btn-group-vertical" variant="outline-light">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <BsPlusSquare />
