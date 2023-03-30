@@ -37,9 +37,7 @@ const Add = () => {
     validationSchema: signUpSchema,
     onSubmit: () => {
       const { name } = formik.values;
-      const filteredName = leoProfanity.check(name);
-      console.log(filteredName);
-      socket.addNewChannel({ name: filteredName, changeable: true });
+      socket.addNewChannel({ name, changeable: true });
       toast.success(t('toast.add'));
       setCloseModal();
     },
