@@ -5,6 +5,7 @@ import { BsArrowRightSquare } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
+import leoProfanity from 'leo-profanity';
 import hooks from '../../hooks/index.jsx';
 
 const Messages = () => {
@@ -44,7 +45,8 @@ const Messages = () => {
     validationSchema: signUpSchema,
     onSubmit: (e, { resetForm }) => {
       const { body } = e;
-      socket.addNewMessage({ body, channelId: currentChannelId, username });
+      const filteredMessage = leoProfanity.clean(body);
+      socket.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
       resetForm();
     },
   });

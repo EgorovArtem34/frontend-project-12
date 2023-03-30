@@ -1,5 +1,6 @@
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
+import leoProfanity from 'leo-profanity';
 import App from './App';
 import ru from './locales/ru.js';
 import socketConfigure from './components/socketConfigure.jsx';
@@ -15,6 +16,7 @@ const init = async (socket) => {
       fallbackLng: 'ru',
     });
 
+  leoProfanity.add(leoProfanity.getDictionary('ru'));
   const SocketProvider = ({ children }) => {
     const socketData = socketConfigure(socket);
     const { SocketContext } = contexts;

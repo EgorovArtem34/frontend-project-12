@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
+import leoProfanity from 'leo-profanity';
 import { closeModal } from '../../slices/modalsSlice.js';
 import hooks from '../../hooks/index.jsx';
 
@@ -26,7 +27,8 @@ const Add = () => {
       .min(3, t('errors.minMax'))
       .max(20, t('errors.minMax'))
       .notOneOf(channelNames, t('errors.uniq'))
-      .required(t('errors.required')),
+      .required(t('errors.required'))
+      .test('profanity', (t('errors.profanity')), (value) => !leoProfanity.check(value)),
   });
   const formik = useFormik({
     initialValues: {
@@ -35,8 +37,9 @@ const Add = () => {
     validationSchema: signUpSchema,
     onSubmit: () => {
       const { name } = formik.values;
-
-      socket.addNewChannel({ name, changeable: true });
+      const filteredName = leoProfanity.check(name);
+      console.log(filteredName);
+      socket.addNewChannel({ name: filteredName, changeable: true });
       toast.success(t('toast.add'));
       setCloseModal();
     },
