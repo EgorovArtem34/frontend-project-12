@@ -7,7 +7,7 @@ export default {
     },
     login: {
       signIn: 'Войти',
-      password: 'password',
+      password: 'Пароль',
       yourName: 'Ваш ник',
       invalid: 'Неверные имя пользователя или пароль',
       haveAccount: 'Нет аккаунта?',

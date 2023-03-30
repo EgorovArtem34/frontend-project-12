@@ -69,10 +69,10 @@ const LoginPage = () => {
           <Card className="shadow-sm">
             <Card.Body className="row p-5">
               <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
-                <img src={logo} className="rounded-circle" alt={t('login.singIn')} />
+                <img src={logo} className="rounded-circle" alt={t('login.signIn')} />
               </div>
               <Form onSubmit={formik.handleSubmit} className="col-12 col-md-6 mt-3 mt-mb-0">
-                <h1 className="text-center mb-4">{t('login.singIn')}</h1>
+                <h1 className="text-center mb-4">{t('login.signIn')}</h1>
                 <fieldset disabled={formik.isSubmitting}>
                   <Form.Group className="form-floating mb-3">
                     <Form.Control
@@ -104,7 +104,7 @@ const LoginPage = () => {
                     <Form.Label htmlFor="password">{t('login.password')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{t('login.invalid')}</Form.Control.Feedback>
                   </Form.Group>
-                  <Button type="submit" variant="outline-primary">{t('login.singIn')}</Button>
+                  <Button type="submit" variant="outline-primary">{t('login.signIn')}</Button>
                 </fieldset>
               </Form>
             </Card.Body>
