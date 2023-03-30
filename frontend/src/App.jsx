@@ -9,6 +9,8 @@ import {
   useLocation,
 } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import 'react-toastify/dist/ReactToastify.css';
+import { ToastContainer } from 'react-toastify';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import store from './slices/index.js';
 import contexts from './contexts/index.jsx';
@@ -105,6 +107,7 @@ const App = () => (
               </Routes>
             </div>
           </Router>
+          <ToastContainer />
         </AuthProvider>
       </Provider>
     </div>

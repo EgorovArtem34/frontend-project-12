@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../slices/modalsSlice.js';
@@ -36,6 +37,7 @@ const Add = () => {
       const { name } = formik.values;
 
       socket.addNewChannel({ name, changeable: true });
+      toast.success(t('toast.add'));
       setCloseModal();
     },
   });

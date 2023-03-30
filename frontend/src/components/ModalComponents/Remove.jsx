@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 import hooks from '../../hooks/index.jsx';
 import { closeModal } from '../../slices/modalsSlice.js';
 
@@ -15,6 +16,7 @@ const Remove = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     makeRemoveChannel(removeId);
+    toast.success(t('toast.delete'));
     setCloseModal();
   };
 

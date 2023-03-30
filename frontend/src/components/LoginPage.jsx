@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import {
   Button, Form, Row, Card,
 } from 'react-bootstrap';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import logo from '../assets/avatar.jpg';
@@ -51,6 +52,7 @@ const LoginPage = () => {
           inputEl.current.select();
           return;
         }
+        toast.error(t('toast.network'));
         throw err;
       }
     },
