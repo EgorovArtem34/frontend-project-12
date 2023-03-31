@@ -34,17 +34,12 @@ const init = async (socket) => {
       </SocketContext.Provider>
     );
   };
-  function TestError() {
-    const a = null;
-    return a.hello();
-  }
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <SocketProvider>
           <I18nextProvider i18n={i18n}>
             <App />
-            <TestError />
           </I18nextProvider>
         </SocketProvider>
       </ErrorBoundary>
