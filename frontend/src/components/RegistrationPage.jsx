@@ -54,8 +54,8 @@ const RegistrationPage = () => {
         navigate(from);
       } catch (err) {
         formik.setSubmitting(false);
+        setRegFailed(true);
         if (err.isAxiosError && err.response.status === 401) {
-          setRegFailed(true);
           inputEl.current.select();
           return;
         }
@@ -110,29 +110,33 @@ const RegistrationPage = () => {
                     <Form.Label htmlFor="password">{t('signUp.password')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
                   </Form.Group>
-                  <Form.Group className="form-floating mb-4">
-                    <Form.Control
-                      type="password"
-                      name="confirmPassword"
-                      id="confirmPassword"
-                      aria-describedby="passwordHelpBlock"
-                      placeholder={t('errors.mustMatch')}
-                      autoComplete="new-password"
-                      required
-                      onChange={formik.handleChange}
-                      onBlur={formik.handleBlur}
-                      value={formik.values.confirmPassword}
-                      isInvalid={(formik.touched.confirmPassword && formik.errors.confirmPassword)
-                        || RegFailed}
-                    />
-                    <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
-                    <Form.Control.Feedback type="invalid" tooltip>
-                      {RegFailed ? t('errors.exist') : formik.errors.confirmPassword}
-                    </Form.Control.Feedback>
-                  </Form.Group>
-                  <Button type="submit" variant="outline-primary" className="w-100">
-                    {t('signUp.makeSignUp')}
-                  </Button>
+                  <div className="d-flex flex-column mb-4">
+                    <Form.Group className="form-floating mb-4">
+                      <Form.Control
+                        type="password"
+                        name="confirmPassword"
+                        id="confirmPassword"
+                        aria-describedby="passwordHelpBlock"
+                        placeholder={t('errors.mustMatch')}
+                        autoComplete="new-password"
+                        required
+                        onChange={formik.handleChange}
+                        onBlur={formik.handleBlur}
+                        value={formik.values.confirmPassword}
+                        isInvalid={(formik.touched.confirmPassword && formik.errors.confirmPassword)
+                          || RegFailed}
+                        data-bs-container=".invalid-feedback"
+                        data-bs-margin="20"
+                      />
+                      <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
+                      <Form.Control.Feedback type="invalid" className="my-44" tooltip>
+                        {RegFailed ? t('errors.exist') : formik.errors.confirmPassword}
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                    <Button type="submit" variant="outline-primary" className="w-100">
+                      {t('signUp.makeSignUp')}
+                    </Button>
+                  </div>
                 </fieldset>
               </Form>
             </Card.Body>
