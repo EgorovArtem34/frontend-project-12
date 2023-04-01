@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import leoProfanity from 'leo-profanity';
 import { closeModal } from '../../slices/modalsSlice.js';
 import hooks from '../../hooks/index.jsx';
+import { selectors } from '../../slices/channelsSlice.js';
 
 const Add = () => {
   const { t } = useTranslation();
@@ -19,7 +20,7 @@ const Add = () => {
   useEffect(() => {
     inputRef.current.focus();
   }, []);
-  const { channels } = useSelector(({ channelsSlice }) => channelsSlice.channelsData);
+  const channels = useSelector(selectors.selectAll);
   const channelNames = channels.map((channel) => channel.name);
   const signUpSchema = yup.object().shape({
     name: yup.string()
@@ -38,13 +39,13 @@ const Add = () => {
     onSubmit: () => {
       const { name } = formik.values;
       socket.addNewChannel({ name, changeable: true });
-      toast.success(t('toast.add'));
       setCloseModal();
+      toast.success(t('toast.add'));
     },
   });
   return (
-    <Modal show centered>
-      <Modal.Header closeButton onHide={setCloseModal}>
+    <Modal show centered onHide={setCloseModal}>
+      <Modal.Header closeButton>
         <Modal.Title>{t('modals.addChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -54,8 +55,9 @@ const Add = () => {
               required
               ref={inputRef}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              type="text"
               value={formik.values.name}
-              data-testid="input-body"
               name="name"
               id="name"
               className="mb-2"

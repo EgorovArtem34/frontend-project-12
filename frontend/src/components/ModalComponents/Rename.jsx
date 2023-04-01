@@ -7,6 +7,7 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../slices/modalsSlice.js';
 import hooks from '../../hooks/index.jsx';
+import { selectors } from '../../slices/channelsSlice.js';
 
 const Rename = () => {
   const { t } = useTranslation();
@@ -18,7 +19,7 @@ const Rename = () => {
   useEffect(() => {
     inputRef.current.select();
   }, []);
-  const { channels } = useSelector(({ channelsSlice }) => channelsSlice.channelsData);
+  const channels = useSelector(selectors.selectAll);
   const currentRenameId = useSelector(({ modalsSlice }) => modalsSlice.id);
   const [currentChannel] = channels.filter((channel) => channel.id === currentRenameId);
   const channelNames = channels.map((channel) => channel.name);
@@ -43,8 +44,8 @@ const Rename = () => {
     },
   });
   return (
-    <Modal show centered>
-      <Modal.Header closeButton onHide={setCloseModal}>
+    <Modal show centered onHide={setCloseModal}>
+      <Modal.Header closeButton>
         <Modal.Title>{t('modals.renameChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -54,8 +55,9 @@ const Rename = () => {
               required
               ref={inputRef}
               onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              type="text"
               value={formik.values.name}
-              data-testid="input-body"
               name="name"
               id="name"
               className="mb-2"

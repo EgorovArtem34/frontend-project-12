@@ -21,8 +21,8 @@ const Remove = () => {
   };
 
   return (
-    <Modal show centered>
-      <Modal.Header closeButton onHide={setCloseModal}>
+    <Modal show centered onHide={setCloseModal}>
+      <Modal.Header closeButton>
         <Modal.Title>{t('modals.removeChannel')}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
