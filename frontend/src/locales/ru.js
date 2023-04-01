@@ -4,6 +4,7 @@ export default {
       header: 'Каналы',
       remove: 'Удалить',
       rename: 'Переименовать',
+      rule: 'Управление каналом',
     },
     login: {
       signIn: 'Войти',
@@ -52,7 +53,7 @@ export default {
     toast: {
       rename: 'Канал переименован',
       delete: 'Канал удалён',
-      add: 'Канал добавлен',
+      add: 'Канал создан',
       network: 'Ошибка соединения',
     },
     errors: {
