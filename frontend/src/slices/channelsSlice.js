@@ -1,11 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit';
+/* eslint-disable no-param-reassign */
+import { createSlice, createEntityAdapter } from '@reduxjs/toolkit';
 
-const initialState = {
-  channelsData: {
-    channels: [],
-    currentChannelId: null,
-  },
-};
+const channelsAdapter = createEntityAdapter();
+const initialState = channelsAdapter.getInitialState({
+  currentChannelId: null,
+});
 
 const defaultChannelId = 1;
 
@@ -13,32 +12,21 @@ const channelsSlice = createSlice({
   name: 'channels',
   initialState,
   reducers: {
-    addChannels: (state, { payload }) => {
-      const { channels, currentChannelId } = payload;
-      state.channelsData.channels = channels;
-      state.channelsData.currentChannelId = currentChannelId;
-    },
-    addChannel: (state, { payload }) => {
-      state.channelsData.channels.push(payload);
-    },
-    setCurrentChannel: (state, { payload }) => {
-      state.channelsData.currentChannelId = payload;
+    addChannels: channelsAdapter.addMany,
+    addChannel: channelsAdapter.addOne,
+    renameChannel: channelsAdapter.setOne,
+    setCurrentChannel: (state, action) => {
+      state.currentChannelId = action.payload;
     },
     removeChannel: (state, { payload }) => {
-      const filteredChannels = state.channelsData.channels.filter((c) => c.id !== payload.id);
-      if (state.channelsData.currentChannelId === payload.id) {
-        state.channelsData.currentChannelId = defaultChannelId;
+      if (state.currentChannelId === payload.id) {
+        state.currentChannelId = defaultChannelId;
       }
-      state.channelsData.channels = filteredChannels;
-    },
-    renameChannel: (state, { payload }) => {
-      const newState = state.channelsData.channels.map((channel) => (channel.id === payload.id
-        ? payload : channel));
-      state.channelsData.channels = newState;
+      channelsAdapter.removeOne(state, payload.id);
     },
   },
 });
 
 export const { actions } = channelsSlice;
-
+export const selectors = channelsAdapter.getSelectors((state) => state.channelsSlice);
 export default channelsSlice.reducer;
