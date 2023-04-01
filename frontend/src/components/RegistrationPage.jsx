@@ -15,6 +15,7 @@ const RegistrationPage = () => {
   const { t } = useTranslation();
   const inputEl = useRef(null);
   const [RegFailed, setRegFailed] = useState(false);
+  const [MatchNameErr, setMatchNameErr] = useState(false);
   const { useAuth } = hooks;
   const auth = useAuth();
   const location = useLocation();
@@ -22,7 +23,6 @@ const RegistrationPage = () => {
   useEffect(() => {
     inputEl.current.focus();
   }, []);
-
   const signUpSchema = yup.object().shape({
     username: yup.string()
       .trim()
@@ -47,6 +47,7 @@ const RegistrationPage = () => {
     onSubmit: async (values) => {
       try {
         setRegFailed(false);
+        setMatchNameErr(false);
         const response = await axios.post(routes.signUp(), values);
         localStorage.setItem('user', JSON.stringify(response.data));
         auth.logIn();
@@ -59,11 +60,20 @@ const RegistrationPage = () => {
           inputEl.current.select();
           return;
         }
+        if (err.response.status === 409) {
+          setMatchNameErr(true);
+        }
         throw err;
       }
     },
   });
-
+  const [showFeedback, setShowFeedback] = useState(true);
+  const handleInputChange = (event) => {
+    if (MatchNameErr) {
+      setShowFeedback(false);
+    }
+    formik.handleChange(event);
+  };
   return (
     <div className="container-fluid h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -83,7 +93,7 @@ const RegistrationPage = () => {
                       name="username"
                       id="username"
                       autoComplete="username"
-                      onChange={formik.handleChange}
+                      onChange={handleInputChange}
                       onBlur={formik.handleBlur}
                       isInvalid={(formik.touched.username && formik.errors.username) || RegFailed}
                       type="text"
@@ -110,33 +120,31 @@ const RegistrationPage = () => {
                     <Form.Label htmlFor="password">{t('signUp.password')}</Form.Label>
                     <Form.Control.Feedback type="invalid">{formik.errors.password}</Form.Control.Feedback>
                   </Form.Group>
-                  <div className="d-flex flex-column mb-4">
-                    <Form.Group className="form-floating mb-4">
-                      <Form.Control
-                        type="password"
-                        name="confirmPassword"
-                        id="confirmPassword"
-                        aria-describedby="passwordHelpBlock"
-                        placeholder={t('errors.mustMatch')}
-                        autoComplete="new-password"
-                        required
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        value={formik.values.confirmPassword}
-                        isInvalid={(formik.touched.confirmPassword && formik.errors.confirmPassword)
-                          || RegFailed}
-                        data-bs-container=".invalid-feedback"
-                        data-bs-margin="20"
-                      />
-                      <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
+                  <Form.Group className="form-floating mb-4">
+                    <Form.Control
+                      type="password"
+                      name="confirmPassword"
+                      id="confirmPassword"
+                      aria-describedby="passwordHelpBlock"
+                      placeholder={t('errors.mustMatch')}
+                      autoComplete="new-password"
+                      required
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
+                      value={formik.values.confirmPassword}
+                      isInvalid={(formik.touched.confirmPassword && formik.errors.confirmPassword)
+                        || RegFailed}
+                    />
+                    <Form.Label htmlFor="confirmPassword">{t('signUp.confirmPassword')}</Form.Label>
+                    {showFeedback && (
                       <Form.Control.Feedback type="invalid" className="my-44" tooltip>
                         {RegFailed ? t('errors.exist') : formik.errors.confirmPassword}
                       </Form.Control.Feedback>
-                    </Form.Group>
-                    <Button type="submit" variant="outline-primary" className="w-100">
-                      {t('signUp.makeSignUp')}
-                    </Button>
-                  </div>
+                    )}
+                  </Form.Group>
+                  <Button type="submit" variant="outline-primary" className="w-100">
+                    {t('signUp.makeSignUp')}
+                  </Button>
                 </fieldset>
               </Form>
             </Card.Body>
