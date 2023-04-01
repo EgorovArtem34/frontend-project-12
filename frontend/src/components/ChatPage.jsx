@@ -14,17 +14,18 @@ const ChatPage = () => {
   const auth = useAuth();
   const dispatch = useDispatch();
   const headers = auth.getAuthHeader();
-  const { addChannels } = actions;
+  const { addChannels, setCurrentChannel } = actions;
   useEffect(() => {
     const dataContent = async () => {
       const { data } = await axios.get(routes.dataPath(), { headers });
       const { channels, messages, currentChannelId } = data;
-      dispatch(addChannels({ channels, currentChannelId }));
+      dispatch(addChannels(channels));
+      dispatch(setCurrentChannel(currentChannelId));
       dispatch(addMessages(messages));
     };
 
     dataContent();
-  }, [addChannels, dispatch, headers]);
+  }, [addChannels, dispatch, headers, setCurrentChannel]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
