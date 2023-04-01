@@ -4,9 +4,7 @@ import { actions } from '../slices/channelsSlice.js';
 
 const socketConfigure = (socket) => {
   const addNewMessage = (message) => {
-    socket.emit('newMessage', message, (response) => {
-      console.log(response.status);
-    });
+    socket.emit('newMessage', message);
   };
   const addNewChannel = (chanel) => {
     socket.emit('newChannel', chanel);
