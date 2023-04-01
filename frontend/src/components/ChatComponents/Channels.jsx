@@ -2,14 +2,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Button, Dropdown, ButtonGroup } from 'react-bootstrap';
 import { BsPlusSquare } from 'react-icons/bs';
 import { useTranslation } from 'react-i18next';
-import { actions } from '../../slices/channelsSlice.js';
+import { actions, selectors } from '../../slices/channelsSlice.js';
 import { showModal } from '../../slices/modalsSlice.js';
 
 const Channels = () => {
   const { t } = useTranslation();
   const dispatch = useDispatch();
-  const channelsData = useSelector(({ channelsSlice }) => channelsSlice.channelsData);
-  const { channels, currentChannelId } = channelsData;
+  const channels = useSelector(selectors.selectAll);
+  const { currentChannelId } = useSelector((state) => state.channelsSlice);
 
   const setShowModal = (type, item = null) => dispatch(showModal({ type, item }));
   const handleClick = (id) => {
@@ -41,7 +41,9 @@ const Channels = () => {
         split
         variant={channel.id === currentChannelId ? 'secondary' : 'light'}
         id="dropdown-split-basic"
-      />
+      >
+        <span className="visually-hidden">{t('channels.rule')}</span>
+      </Dropdown.Toggle>
 
       <Dropdown.Menu>
         <Dropdown.Item onClick={() => setShowModal('removeChannel', channel.id)}>
@@ -62,6 +64,7 @@ const Channels = () => {
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="20" height="20" fill="currentColor">
             <BsPlusSquare />
           </svg>
+          <span className="visually-hidden">+</span>
         </Button>
       </div>
       <ul

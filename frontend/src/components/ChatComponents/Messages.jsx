@@ -7,14 +7,15 @@ import { useFormik } from 'formik';
 import * as yup from 'yup';
 import leoProfanity from 'leo-profanity';
 import hooks from '../../hooks/index.jsx';
+import { selectors } from '../../slices/channelsSlice.js';
 
 const Messages = () => {
   const { t } = useTranslation();
   const { useAuth, useSocket } = hooks;
   const socket = useSocket();
   const { currentUser: { username } } = useAuth();
-  const channelsData = useSelector(({ channelsSlice }) => channelsSlice.channelsData);
-  const { channels, currentChannelId } = channelsData;
+  const channels = useSelector(selectors.selectAll);
+  const { currentChannelId } = useSelector((state) => state.channelsSlice);
   const [currentChannel] = channels.filter((channel) => channel.id === currentChannelId);
   const messages = useSelector(({ messagesSlice }) => messagesSlice.messages);
   const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
@@ -22,7 +23,7 @@ const Messages = () => {
 
   useEffect(() => {
     inputEl.current.focus();
-  }, []);
+  });
 
   const createMessage = (message) => (
     <div className="text-break mb-2">
