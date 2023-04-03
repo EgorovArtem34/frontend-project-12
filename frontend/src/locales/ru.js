@@ -65,5 +65,7 @@ export default {
       exist: 'Такой пользователь уже существует',
       profanity: 'Не должно содержать нецензурных слов',
     },
+    hexletChat: 'Hexlet Chat',
+    logOut: 'Выйти',
   },
 };

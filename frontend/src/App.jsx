@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { Button, Navbar, Container } from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import store from './slices/index.js';
 import contexts from './contexts/index.jsx';
 import hooks from './hooks/index.jsx';
@@ -56,6 +57,7 @@ const AuthProvider = ({ children }) => {
 };
 
 const AuthButton = () => {
+  const { t } = useTranslation();
   const { useAuth } = hooks;
   const auth = useAuth();
   const handleBtn = () => {
@@ -64,7 +66,7 @@ const AuthButton = () => {
   };
   return (
     auth.loggedIn
-      ? <Button onClick={handleBtn}>Выйти</Button>
+      ? <Button onClick={handleBtn}>{t('logOut')}</Button>
       : null
   );
 };
@@ -79,37 +81,40 @@ const PrivateRoute = ({ children }) => {
   );
 };
 
-const App = () => (
-  <div className="vh-100" id="chat">
-    <Provider store={store}>
-      <AuthProvider>
-        <Router>
-          <div className="d-flex flex-column h-100">
-            <Navbar bg="white" expand="lg" className="shadow-sm">
-              <Container>
-                <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                <AuthButton />
-              </Container>
-            </Navbar>
-            <Routes>
-              <Route
-                path="/"
-                element={(
-                  <PrivateRoute>
-                    <ChatPage />
-                  </PrivateRoute>
-                )}
-              />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<RegistrationPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-          </div>
-        </Router>
-        <ToastContainer />
-      </AuthProvider>
-    </Provider>
-  </div>
-);
+const App = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="vh-100" id="chat">
+      <Provider store={store}>
+        <AuthProvider>
+          <Router>
+            <div className="d-flex flex-column h-100">
+              <Navbar bg="white" expand="lg" className="shadow-sm">
+                <Container>
+                  <Navbar.Brand as={Link} to="/">{t('hexletChat')}</Navbar.Brand>
+                  <AuthButton />
+                </Container>
+              </Navbar>
+              <Routes>
+                <Route
+                  path="/"
+                  element={(
+                    <PrivateRoute>
+                      <ChatPage />
+                    </PrivateRoute>
+                  )}
+                />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/signup" element={<RegistrationPage />} />
+                <Route path="*" element={<NotFoundPage />} />
+              </Routes>
+            </div>
+          </Router>
+          <ToastContainer />
+        </AuthProvider>
+      </Provider>
+    </div>
+  );
+};
 
 export default App;
