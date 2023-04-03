@@ -1,12 +1,22 @@
 import i18next from 'i18next';
 import { I18nextProvider, initReactI18next } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
+import { Provider } from 'react-redux';
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import App from './App';
 import ru from './locales/ru.js';
+import store from './slices/index.js';
 import socketConfigure from './components/socketConfigure.jsx';
 import { SocketContext } from './contexts/index.jsx';
 
+const SocketProvider = ({ socket, children }) => {
+  const socketData = socketConfigure(socket);
+  return (
+    <SocketContext.Provider value={socketData}>
+      {children}
+    </SocketContext.Provider>
+  );
+};
 const init = async (socket) => {
   const i18n = i18next.createInstance();
   await i18n
@@ -25,22 +35,16 @@ const init = async (socket) => {
     },
   };
   leoProfanity.add(leoProfanity.getDictionary('ru'));
-  const SocketProvider = ({ children }) => {
-    const socketData = socketConfigure(socket);
-    return (
-      <SocketContext.Provider value={socketData}>
-        {children}
-      </SocketContext.Provider>
-    );
-  };
   return (
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
-        <SocketProvider>
-          <I18nextProvider i18n={i18n}>
-            <App />
-          </I18nextProvider>
-        </SocketProvider>
+        <Provider store={store}>
+          <SocketProvider socket={socket}>
+            <I18nextProvider i18n={i18n}>
+              <App />
+            </I18nextProvider>
+          </SocketProvider>
+        </Provider>
       </ErrorBoundary>
     </RollbarProvider>
   );
