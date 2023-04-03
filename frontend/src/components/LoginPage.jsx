@@ -10,13 +10,12 @@ import { useTranslation } from 'react-i18next';
 import * as yup from 'yup';
 import logo from '../assets/avatar.jpg';
 import routes from '../hooks/routes.js';
-import hooks from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
 
 const LoginPage = () => {
   const { t } = useTranslation();
   const inputEl = useRef(null);
   const [authFailed, setAuthFailed] = useState(false);
-  const { useAuth } = hooks;
   const auth = useAuth();
   const location = useLocation();
   const navigate = useNavigate();

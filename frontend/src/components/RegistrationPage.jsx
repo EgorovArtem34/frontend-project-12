@@ -9,14 +9,13 @@ import {
 import * as yup from 'yup';
 import logo from '../assets/registration.jpg';
 import routes from '../hooks/routes.js';
-import hooks from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
 
 const RegistrationPage = () => {
   const { t } = useTranslation();
   const inputEl = useRef(null);
   const [RegFailed, setRegFailed] = useState(false);
   const [MatchNameErr, setMatchNameErr] = useState(false);
-  const { useAuth } = hooks;
   const auth = useAuth();
   const location = useLocation();
   const navigate = useNavigate();

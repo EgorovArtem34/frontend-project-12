@@ -15,7 +15,7 @@ import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import store from './slices/index.js';
 import { AuthContext } from './contexts/index.jsx';
-import hooks from './hooks/index.jsx';
+import { useAuth } from './hooks/index.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import ChatPage from './components/ChatPage.jsx';
 import RegistrationPage from './components/RegistrationPage.jsx';
@@ -57,7 +57,6 @@ const AuthProvider = ({ children }) => {
 
 const AuthButton = () => {
   const { t } = useTranslation();
-  const { useAuth } = hooks;
   const auth = useAuth();
   const handleBtn = () => {
     localStorage.removeItem('user');
@@ -71,7 +70,6 @@ const AuthButton = () => {
 };
 
 const PrivateRoute = ({ children }) => {
-  const { useAuth } = hooks;
   const auth = useAuth();
   const location = useLocation();
 

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
 import routes from '../hooks/routes';
-import hooks from '../hooks/index.jsx';
+import { useAuth } from '../hooks/index.jsx';
 import { actions } from '../slices/channelsSlice.js';
 import { addMessages } from '../slices/messagesSlice.js';
 import Channels from './ChatComponents/Channels.jsx';
@@ -10,7 +10,6 @@ import Messages from './ChatComponents/Messages.jsx';
 import Modal from './Modal.jsx';
 
 const ChatPage = () => {
-  const { useAuth } = hooks;
   const auth = useAuth();
   const dispatch = useDispatch();
   const headers = auth.getAuthHeader();
