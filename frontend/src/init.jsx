@@ -5,7 +5,7 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import App from './App';
 import ru from './locales/ru.js';
 import socketConfigure from './components/socketConfigure.jsx';
-import contexts from './contexts/index.jsx';
+import { SocketContext } from './contexts/index.jsx';
 
 const init = async (socket) => {
   const i18n = i18next.createInstance();
@@ -27,7 +27,6 @@ const init = async (socket) => {
   leoProfanity.add(leoProfanity.getDictionary('ru'));
   const SocketProvider = ({ children }) => {
     const socketData = socketConfigure(socket);
-    const { SocketContext } = contexts;
     return (
       <SocketContext.Provider value={socketData}>
         {children}

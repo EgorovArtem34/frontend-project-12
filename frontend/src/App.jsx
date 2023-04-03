@@ -14,7 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import { Button, Navbar, Container } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import store from './slices/index.js';
-import contexts from './contexts/index.jsx';
+import { AuthContext } from './contexts/index.jsx';
 import hooks from './hooks/index.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import ChatPage from './components/ChatPage.jsx';
@@ -32,7 +32,6 @@ const getAuthHeader = () => {
 };
 
 const AuthProvider = ({ children }) => {
-  const { AuthContext } = contexts;
   const currentUser = JSON.parse(localStorage.getItem('user'));
   const [loggedIn, setLoggedIn] = useState(!!currentUser);
   const logIn = useCallback(() => {
