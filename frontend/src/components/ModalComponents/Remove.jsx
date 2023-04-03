@@ -2,12 +2,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import { useSocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 import { closeModal } from '../../slices/modalsSlice.js';
 
 const Remove = () => {
   const { t } = useTranslation();
-  const socket = useSocket();
+  const socket = useApi();
   const dispatch = useDispatch();
   const makeRemoveChannel = (id) => socket.removeChannel({ id });
   const removeId = useSelector(({ modalsSlice }) => modalsSlice.id);

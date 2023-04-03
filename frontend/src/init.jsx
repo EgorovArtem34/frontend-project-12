@@ -9,7 +9,7 @@ import store from './slices/index.js';
 import socketConfigure from './components/socketConfigure.jsx';
 import { SocketContext } from './contexts/index.jsx';
 
-const SocketProvider = ({ socket, children }) => {
+const ApiProvider = ({ socket, children }) => {
   const socketData = socketConfigure(socket);
   return (
     <SocketContext.Provider value={socketData}>
@@ -39,11 +39,11 @@ const init = async (socket) => {
     <RollbarProvider config={rollbarConfig}>
       <ErrorBoundary>
         <Provider store={store}>
-          <SocketProvider socket={socket}>
+          <ApiProvider socket={socket}>
             <I18nextProvider i18n={i18n}>
               <App />
             </I18nextProvider>
-          </SocketProvider>
+          </ApiProvider>
         </Provider>
       </ErrorBoundary>
     </RollbarProvider>

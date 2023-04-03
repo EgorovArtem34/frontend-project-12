@@ -6,12 +6,12 @@ import { toast } from 'react-toastify';
 import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { closeModal } from '../../slices/modalsSlice.js';
-import { useSocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 import { selectors } from '../../slices/channelsSlice.js';
 
 const Rename = () => {
   const { t } = useTranslation();
-  const socket = useSocket();
+  const socket = useApi();
   const dispatch = useDispatch();
   const setCloseModal = () => dispatch(closeModal());
   const inputRef = useRef(null);

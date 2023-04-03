@@ -7,12 +7,12 @@ import { Modal, Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import leoProfanity from 'leo-profanity';
 import { closeModal } from '../../slices/modalsSlice.js';
-import { useSocket } from '../../hooks/index.jsx';
+import { useApi } from '../../hooks/index.jsx';
 import { selectors } from '../../slices/channelsSlice.js';
 
 const Add = () => {
   const { t } = useTranslation();
-  const socket = useSocket();
+  const socket = useApi();
   const dispatch = useDispatch();
   const setCloseModal = () => dispatch(closeModal());
   const inputRef = useRef(null);

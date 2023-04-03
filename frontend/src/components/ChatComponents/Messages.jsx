@@ -6,12 +6,12 @@ import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
 import leoProfanity from 'leo-profanity';
-import { useAuth, useSocket } from '../../hooks/index.jsx';
+import { useAuth, useApi } from '../../hooks/index.jsx';
 import { selectors } from '../../slices/channelsSlice.js';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const socket = useSocket();
+  const socket = useApi();
   const { currentUser: { username } } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const { currentChannelId } = useSelector((state) => state.channelsSlice);
