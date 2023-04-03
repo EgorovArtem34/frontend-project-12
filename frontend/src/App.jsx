@@ -80,37 +80,35 @@ const PrivateRoute = ({ children }) => {
 };
 
 const App = () => (
-  <div className="h-100">
-    <div className="h-100" id="chat">
-      <Provider store={store}>
-        <AuthProvider>
-          <Router>
-            <div className="d-flex flex-column h-100">
-              <Navbar bg="white" expand="lg" className="shadow-sm">
-                <Container>
-                  <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
-                  <AuthButton />
-                </Container>
-              </Navbar>
-              <Routes>
-                <Route
-                  path="/"
-                  element={(
-                    <PrivateRoute>
-                      <ChatPage />
-                    </PrivateRoute>
-                  )}
-                />
-                <Route path="/login" element={<LoginPage />} />
-                <Route path="/signup" element={<RegistrationPage />} />
-                <Route path="*" element={<NotFoundPage />} />
-              </Routes>
-            </div>
-          </Router>
-          <ToastContainer />
-        </AuthProvider>
-      </Provider>
-    </div>
+  <div className="vh-100" id="chat">
+    <Provider store={store}>
+      <AuthProvider>
+        <Router>
+          <div className="d-flex flex-column h-100">
+            <Navbar bg="white" expand="lg" className="shadow-sm">
+              <Container>
+                <Navbar.Brand as={Link} to="/">Hexlet Chat</Navbar.Brand>
+                <AuthButton />
+              </Container>
+            </Navbar>
+            <Routes>
+              <Route
+                path="/"
+                element={(
+                  <PrivateRoute>
+                    <ChatPage />
+                  </PrivateRoute>
+                )}
+              />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/signup" element={<RegistrationPage />} />
+              <Route path="*" element={<NotFoundPage />} />
+            </Routes>
+          </div>
+        </Router>
+        <ToastContainer />
+      </AuthProvider>
+    </Provider>
   </div>
 );
 
