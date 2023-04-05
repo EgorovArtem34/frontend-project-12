@@ -18,6 +18,7 @@ import LoginPage from './components/LoginPage.jsx';
 import ChatPage from './components/ChatPage.jsx';
 import SignUpPage from './components/SignUpPage.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
+import routes from './hooks/routes';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('user'));
@@ -90,16 +91,16 @@ const App = () => {
             </Navbar>
             <Routes>
               <Route
-                path="/"
+                path={routes.defaultPath()}
                 element={(
                   <PrivateRoute>
                     <ChatPage />
                   </PrivateRoute>
                 )}
               />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<SignUpPage />} />
-              <Route path="*" element={<NotFoundPage />} />
+              <Route path={routes.loginPagePath()} element={<LoginPage />} />
+              <Route path={routes.signUpPagePath()} element={<SignUpPage />} />
+              <Route path={routes.restPath()} element={<NotFoundPage />} />
             </Routes>
           </div>
         </Router>
