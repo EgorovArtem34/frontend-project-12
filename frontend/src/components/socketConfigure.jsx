@@ -1,19 +1,36 @@
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 import store from '../slices/index.js';
 import { addMessage } from '../slices/messagesSlice.js';
 import { actions } from '../slices/channelsSlice.js';
 
+const CheckResponse = (response) => {
+  const { t } = useTranslation();
+  if (response.status !== 'ok') {
+    toast.error(t('toast.network'));
+  }
+};
+
 const socketConfigure = (socket) => {
   const addNewMessage = (message) => {
-    socket.emit('newMessage', message);
+    socket.emit('newMessage', message, (response) => {
+      CheckResponse(response);
+    });
   };
   const addNewChannel = (chanel) => {
-    socket.emit('newChannel', chanel);
+    socket.emit('newChannel', chanel, (response) => {
+      CheckResponse(response);
+    });
   };
   const removeChannel = (chanelId) => {
-    socket.emit('removeChannel', chanelId);
+    socket.emit('removeChannel', chanelId, (response) => {
+      CheckResponse(response);
+    });
   };
   const renameChannel = (chanel) => {
-    socket.emit('renameChannel', chanel);
+    socket.emit('renameChannel', chanel, (response) => {
+      CheckResponse(response);
+    });
   };
 
   socket.on('newMessage', (message) => {
