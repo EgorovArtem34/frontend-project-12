@@ -12,7 +12,7 @@ export default {
       yourName: 'Ваш ник',
       invalid: 'Неверные имя пользователя или пароль',
       haveAccount: 'Нет аккаунта?',
-      registration: 'Регистрация',
+      signUp: 'Регистрация',
     },
     signUp: {
       header: 'Регистрация',

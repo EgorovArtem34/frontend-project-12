@@ -12,7 +12,7 @@ import { selectors } from '../../slices/channelsSlice.js';
 const Messages = () => {
   const { t } = useTranslation();
   const socket = useApi();
-  const { currentUser: { username } } = useAuth();
+  const { user: { username } } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const { currentChannelId } = useSelector((state) => state.channelsSlice);
   const [currentChannel] = channels.filter((channel) => channel.id === currentChannelId);

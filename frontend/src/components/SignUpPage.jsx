@@ -11,7 +11,7 @@ import logo from '../assets/registration.jpg';
 import routes from '../hooks/routes.js';
 import { useAuth } from '../hooks/index.jsx';
 
-const RegistrationPage = () => {
+const SignUpPage = () => {
   const { t } = useTranslation();
   const inputEl = useRef(null);
   const [RegFailed, setRegFailed] = useState(false);
@@ -48,8 +48,7 @@ const RegistrationPage = () => {
         setRegFailed(false);
         setMatchNameErr(false);
         const response = await axios.post(routes.signUp(), values);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        auth.logIn();
+        auth.logIn(response.data);
         const { from } = location.state || { from: { pathname: '/' } };
         navigate(from);
       } catch (err) {
@@ -153,4 +152,4 @@ const RegistrationPage = () => {
     </div>
   );
 };
-export default RegistrationPage;
+export default SignUpPage;

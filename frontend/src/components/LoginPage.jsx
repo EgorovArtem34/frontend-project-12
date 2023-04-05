@@ -40,8 +40,7 @@ const LoginPage = () => {
 
       try {
         const response = await axios.post(routes.loginPath(), values);
-        localStorage.setItem('user', JSON.stringify(response.data));
-        auth.logIn();
+        auth.logIn(response.data);
         const { from } = location.state || { from: { pathname: '/' } };
         navigate(from);
       } catch (err) {
@@ -111,7 +110,7 @@ const LoginPage = () => {
               <div className="text-center">
                 <span>{t('login.haveAccount')}</span>
                 {' '}
-                <a href="/signup">{t('login.registration')}</a>
+                <a href="/signup">{t('login.signUp')}</a>
               </div>
             </Card.Footer>
           </Card>

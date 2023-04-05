@@ -16,7 +16,7 @@ import { AuthContext } from './contexts/index.jsx';
 import { useAuth } from './hooks/index.jsx';
 import LoginPage from './components/LoginPage.jsx';
 import ChatPage from './components/ChatPage.jsx';
-import RegistrationPage from './components/RegistrationPage.jsx';
+import SignUpPage from './components/SignUpPage.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
 
 const getAuthHeader = () => {
@@ -31,19 +31,20 @@ const getAuthHeader = () => {
 
 const AuthProvider = ({ children }) => {
   const currentUser = JSON.parse(localStorage.getItem('user'));
-  const [loggedIn, setLoggedIn] = useState(!!currentUser);
-  const logIn = useCallback(() => {
-    setLoggedIn(true);
+  const [user, setUser] = useState(currentUser ? { username: currentUser.username } : null);
+  const logIn = useCallback((userData) => {
+    localStorage.setItem('user', JSON.stringify(userData));
+    setUser({ username: userData.username });
   }, []);
   const logOut = useCallback(() => {
-    localStorage.removeItem('userId');
-    setLoggedIn(false);
+    localStorage.removeItem('user');
+    setUser(null);
   }, []);
   const providerValues = useMemo(
     () => ({
-      loggedIn, logIn, logOut, getAuthHeader, currentUser,
+      user, logIn, logOut, getAuthHeader,
     }),
-    [loggedIn, logIn, logOut, currentUser],
+    [user, logIn, logOut],
   );
 
   return (
@@ -57,11 +58,10 @@ const AuthButton = () => {
   const { t } = useTranslation();
   const auth = useAuth();
   const handleBtn = () => {
-    localStorage.removeItem('user');
     auth.logOut();
   };
   return (
-    auth.loggedIn
+    auth.user
       ? <Button onClick={handleBtn}>{t('logOut')}</Button>
       : null
   );
@@ -70,9 +70,8 @@ const AuthButton = () => {
 const PrivateRoute = ({ children }) => {
   const auth = useAuth();
   const location = useLocation();
-
   return (
-    auth.loggedIn ? children : <Navigate to="/login" state={{ from: location }} />
+    auth.user ? children : <Navigate to="/login" state={{ from: location }} />
   );
 };
 
@@ -99,7 +98,7 @@ const App = () => {
                 )}
               />
               <Route path="/login" element={<LoginPage />} />
-              <Route path="/signup" element={<RegistrationPage />} />
+              <Route path="/signup" element={<SignUpPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </div>
