@@ -51,7 +51,6 @@ const LoginPage = () => {
           return;
         }
         toast.error(t('toast.network'));
-        throw err;
       }
     },
   });

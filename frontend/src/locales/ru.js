@@ -55,6 +55,7 @@ export default {
       delete: 'Канал удалён',
       add: 'Канал создан',
       network: 'Ошибка соединения',
+      unknown: 'Неизвестная ошибка',
     },
     errors: {
       required: 'Обязательное поле',
