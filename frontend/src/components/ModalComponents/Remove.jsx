@@ -14,9 +14,13 @@ const Remove = () => {
   const setCloseModal = () => dispatch(closeModal());
   const handleSubmit = (e) => {
     e.preventDefault();
-    makeRemoveChannel(removeId);
-    toast.success(t('toast.delete'));
-    setCloseModal();
+    try {
+      makeRemoveChannel(removeId);
+      toast.success(t('toast.delete'));
+      setCloseModal();
+    } catch (err) {
+      toast.error(t('toast.network'));
+    }
   };
 
   return (

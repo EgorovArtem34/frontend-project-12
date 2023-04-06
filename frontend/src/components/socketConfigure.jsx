@@ -1,37 +1,16 @@
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
 import store from '../slices/index.js';
 import { addMessage } from '../slices/messagesSlice.js';
 import { actions } from '../slices/channelsSlice.js';
 
-const CheckResponse = (response) => {
-  const { t } = useTranslation();
-  if (response.status !== 'ok') {
-    toast.error(t('toast.network'));
-  }
-};
+const promosifySocket = (socket, type, data) => new Promise((resolve, reject) => {
+  socket.timeout(5000).emit(type, data, (err, response) => (err ? reject(err) : resolve(response)));
+});
 
 const socketConfigure = (socket) => {
-  const addNewMessage = (message) => {
-    socket.emit('newMessage', message, (response) => {
-      CheckResponse(response);
-    });
-  };
-  const addNewChannel = (chanel) => {
-    socket.emit('newChannel', chanel, (response) => {
-      CheckResponse(response);
-    });
-  };
-  const removeChannel = (chanelId) => {
-    socket.emit('removeChannel', chanelId, (response) => {
-      CheckResponse(response);
-    });
-  };
-  const renameChannel = (chanel) => {
-    socket.emit('renameChannel', chanel, (response) => {
-      CheckResponse(response);
-    });
-  };
+  const addNewMessage = (message) => promosifySocket(socket, 'newMessage', message);
+  const addNewChannel = (channel) => promosifySocket(socket, 'newChannel', channel);
+  const removeChannel = (chanelId) => promosifySocket(socket, 'removeChannel', chanelId);
+  const renameChannel = (channel) => promosifySocket(socket, 'renameChannel', channel);
 
   socket.on('newMessage', (message) => {
     store.dispatch(addMessage(message));

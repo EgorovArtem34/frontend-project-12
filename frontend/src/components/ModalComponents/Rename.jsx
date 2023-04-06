@@ -37,9 +37,13 @@ const Rename = () => {
     validationSchema: signUpSchema,
     onSubmit: () => {
       const { name } = formik.values;
-      socket.renameChannel({ id: currentRenameId, name });
-      toast.success(t('toast.rename'));
-      setCloseModal();
+      try {
+        socket.renameChannel({ id: currentRenameId, name });
+        toast.success(t('toast.rename'));
+        setCloseModal();
+      } catch (err) {
+        toast.error(t('toast.network'));
+      }
     },
   });
   return (

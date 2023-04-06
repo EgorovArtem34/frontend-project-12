@@ -37,9 +37,13 @@ const Add = () => {
     validationSchema: signUpSchema,
     onSubmit: () => {
       const { name } = formik.values;
-      socket.addNewChannel({ name, changeable: true });
-      setCloseModal();
-      toast.success(t('toast.add'));
+      try {
+        socket.addNewChannel({ name, changeable: true });
+        setCloseModal();
+        toast.success(t('toast.add'));
+      } catch (err) {
+        toast.error(t('toast.network'));
+      }
     },
   });
   return (

@@ -2,6 +2,7 @@ import { useSelector } from 'react-redux';
 import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useEffect, useRef } from 'react';
 import { BsArrowRightSquare } from 'react-icons/bs';
+import { toast } from 'react-toastify';
 import { useTranslation } from 'react-i18next';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -46,8 +47,12 @@ const Messages = () => {
     onSubmit: (e, { resetForm }) => {
       const { body } = e;
       const filteredMessage = leoProfanity.clean(body);
-      socket.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
-      resetForm();
+      try {
+        socket.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
+        resetForm();
+      } catch (err) {
+        toast.error(t('toast.network'));
+      }
     },
   });
   return (
