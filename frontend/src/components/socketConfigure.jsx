@@ -2,8 +2,17 @@ import store from '../slices/index.js';
 import { addMessage } from '../slices/messagesSlice.js';
 import { actions } from '../slices/channelsSlice.js';
 
+// const dispatch = useDispatch();
 const promosifySocket = (socket, type, data) => new Promise((resolve, reject) => {
-  socket.timeout(5000).emit(type, data, (err, response) => (err ? reject(err) : resolve(response)));
+  socket.timeout(5000).emit(type, data, (err, response) => {
+    if (err) {
+      reject(err);
+    }
+    if (type === 'newChannel') {
+      store.dispatch(actions.setCurrentChannel(response.data.id));
+    }
+    resolve(response);
+  });
 });
 
 const socketConfigure = (socket) => {
@@ -17,7 +26,6 @@ const socketConfigure = (socket) => {
   });
   socket.on('newChannel', (channel) => {
     store.dispatch(actions.addChannel(channel));
-    store.dispatch(actions.setCurrentChannel(channel.id));
   });
   socket.on('removeChannel', (chanelId) => {
     store.dispatch(actions.removeChannel(chanelId));
