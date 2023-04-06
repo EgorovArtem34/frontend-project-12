@@ -18,7 +18,7 @@ const promosifySocket = (socket, type, data) => new Promise((resolve, reject) =>
 const socketConfigure = (socket) => {
   const addNewMessage = (message) => promosifySocket(socket, 'newMessage', message);
   const addNewChannel = (channel) => promosifySocket(socket, 'newChannel', channel);
-  const removeChannel = (chanelId) => promosifySocket(socket, 'removeChannel', chanelId);
+  const removeChannel = (channelId) => promosifySocket(socket, 'removeChannel', channelId);
   const renameChannel = (channel) => promosifySocket(socket, 'renameChannel', channel);
 
   socket.on('newMessage', (message) => {
