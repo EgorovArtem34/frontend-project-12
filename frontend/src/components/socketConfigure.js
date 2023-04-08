@@ -2,7 +2,6 @@ import store from '../slices/index.js';
 import { addMessage } from '../slices/messagesSlice.js';
 import { actions } from '../slices/channelsSlice.js';
 
-// const dispatch = useDispatch();
 const promosifySocket = (socket, type, data) => new Promise((resolve, reject) => {
   socket.timeout(5000).emit(type, data, (err, response) => {
     if (err) {
