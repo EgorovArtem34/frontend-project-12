@@ -8,7 +8,7 @@ import {
 } from 'react-bootstrap';
 import * as yup from 'yup';
 import logo from '../assets/registration.jpg';
-import routes from '../hooks/routes.js';
+import routes from '../routes.js';
 import { useAuth } from '../hooks/index.jsx';
 
 const SignUpPage = () => {

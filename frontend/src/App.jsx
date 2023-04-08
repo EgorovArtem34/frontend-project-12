@@ -18,7 +18,7 @@ import LoginPage from './components/LoginPage.jsx';
 import ChatPage from './components/ChatPage.jsx';
 import SignUpPage from './components/SignUpPage.jsx';
 import NotFoundPage from './components/NotFoundPage.jsx';
-import routes from './hooks/routes';
+import routes from './routes';
 
 const getAuthHeader = () => {
   const userId = JSON.parse(localStorage.getItem('user'));

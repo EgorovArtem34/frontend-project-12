@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import routes from '../hooks/routes';
+import routes from '../routes';
 import { useAuth } from '../hooks/index.jsx';
 import { actions } from '../slices/channelsSlice.js';
 import { addMessages } from '../slices/messagesSlice.js';
