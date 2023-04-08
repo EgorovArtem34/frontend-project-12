@@ -7,14 +7,14 @@ import App from './App';
 import ru from './locales/ru.js';
 import store from './slices/index.js';
 import socketConfigure from './components/socketConfigure.jsx';
-import { SocketContext } from './contexts/index.jsx';
+import { ApiContext } from './contexts/index.jsx';
 
 const ApiProvider = ({ socket, children }) => {
   const socketData = socketConfigure(socket);
   return (
-    <SocketContext.Provider value={socketData}>
+    <ApiContext.Provider value={socketData}>
       {children}
-    </SocketContext.Provider>
+    </ApiContext.Provider>
   );
 };
 const init = async (socket) => {

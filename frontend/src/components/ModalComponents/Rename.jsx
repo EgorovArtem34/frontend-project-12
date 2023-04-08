@@ -11,7 +11,7 @@ import { selectors } from '../../slices/channelsSlice.js';
 
 const Rename = () => {
   const { t } = useTranslation();
-  const socket = useApi();
+  const api = useApi();
   const dispatch = useDispatch();
   const setCloseModal = () => dispatch(closeModal());
   const inputRef = useRef(null);
@@ -38,7 +38,7 @@ const Rename = () => {
     onSubmit: () => {
       const { name } = formik.values;
       try {
-        socket.renameChannel({ id: currentRenameId, name });
+        api.renameChannel({ id: currentRenameId, name });
         toast.success(t('toast.rename'));
         setCloseModal();
       } catch (err) {

@@ -12,7 +12,7 @@ import { selectors } from '../../slices/channelsSlice.js';
 
 const Messages = () => {
   const { t } = useTranslation();
-  const socket = useApi();
+  const api = useApi();
   const { user: { username } } = useAuth();
   const channels = useSelector(selectors.selectAll);
   const { currentChannelId } = useSelector((state) => state.channelsSlice);
@@ -48,7 +48,7 @@ const Messages = () => {
       const { body } = e;
       const filteredMessage = leoProfanity.clean(body);
       try {
-        socket.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
+        api.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
         resetForm();
       } catch (err) {
         toast.error(t('toast.network'));

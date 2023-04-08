@@ -7,9 +7,9 @@ import { closeModal } from '../../slices/modalsSlice.js';
 
 const Remove = () => {
   const { t } = useTranslation();
-  const socket = useApi();
+  const api = useApi();
   const dispatch = useDispatch();
-  const makeRemoveChannel = (id) => socket.removeChannel({ id });
+  const makeRemoveChannel = (id) => api.removeChannel({ id });
   const removeId = useSelector(({ modalsSlice }) => modalsSlice.id);
   const setCloseModal = () => dispatch(closeModal());
   const handleSubmit = (e) => {

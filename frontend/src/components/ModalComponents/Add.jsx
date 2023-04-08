@@ -12,7 +12,7 @@ import { selectors } from '../../slices/channelsSlice.js';
 
 const Add = () => {
   const { t } = useTranslation();
-  const socket = useApi();
+  const api = useApi();
   const dispatch = useDispatch();
   const setCloseModal = () => dispatch(closeModal());
   const inputRef = useRef(null);
@@ -38,7 +38,7 @@ const Add = () => {
     onSubmit: () => {
       const { name } = formik.values;
       try {
-        socket.addNewChannel({ name, changeable: true });
+        api.addNewChannel({ name, changeable: true });
         setCloseModal();
         toast.success(t('toast.add'));
       } catch (err) {
