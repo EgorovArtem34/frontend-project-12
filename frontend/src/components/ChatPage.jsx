@@ -28,6 +28,9 @@ const ChatPage = () => {
       } catch (err) {
         if (!err.isAxiosError) {
           toast.error(t('toast.unknownErr'));
+        } else if (err.status === '401') {
+          toast.error(t('toast.auth'));
+          auth.logOut();
         } else {
           toast.error(t('toast.network'));
         }
@@ -35,7 +38,7 @@ const ChatPage = () => {
     };
 
     dataContent();
-  }, [addChannels, dispatch, headers, setCurrentChannel, t]);
+  }, [addChannels, auth, dispatch, headers, setCurrentChannel, t]);
 
   return (
     <div className="container h-100 my-4 overflow-hidden rounded shadow">
