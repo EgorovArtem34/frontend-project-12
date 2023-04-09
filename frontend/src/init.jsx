@@ -6,7 +6,7 @@ import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react';
 import App from './App';
 import ru from './locales/ru.js';
 import store from './slices/index.js';
-import socketConfigure from './components/socketConfigure.js';
+import socketConfigure from './socketConfigure.js';
 import { ApiContext } from './contexts/index.jsx';
 
 const ApiProvider = ({ socket, children }) => {
