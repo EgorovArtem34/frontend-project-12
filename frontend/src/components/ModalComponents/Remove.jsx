@@ -9,13 +9,12 @@ const Remove = () => {
   const { t } = useTranslation();
   const api = useApi();
   const dispatch = useDispatch();
-  const makeRemoveChannel = (id) => api.removeChannel({ id });
   const removeId = useSelector(({ modalsSlice }) => modalsSlice.id);
   const setCloseModal = () => dispatch(closeModal());
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      makeRemoveChannel(removeId);
+      await api.removeChannel({ removeId });
       toast.success(t('toast.delete'));
       setCloseModal();
     } catch (err) {

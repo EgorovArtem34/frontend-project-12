@@ -35,10 +35,10 @@ const Add = () => {
       name: '',
     },
     validationSchema: signUpSchema,
-    onSubmit: () => {
+    onSubmit: async () => {
       const { name } = formik.values;
       try {
-        api.addNewChannel({ name, changeable: true });
+        await api.addNewChannel({ name, changeable: true });
         setCloseModal();
         toast.success(t('toast.add'));
       } catch (err) {

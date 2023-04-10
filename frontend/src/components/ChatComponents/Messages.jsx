@@ -44,11 +44,11 @@ const Messages = () => {
       body: '',
     },
     validationSchema: signUpSchema,
-    onSubmit: (e, { resetForm }) => {
+    onSubmit: async (e, { resetForm }) => {
       const { body } = e;
       const filteredMessage = leoProfanity.clean(body);
       try {
-        api.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
+        await api.addNewMessage({ body: filteredMessage, channelId: currentChannelId, username });
         resetForm();
       } catch (err) {
         toast.error(t('toast.network'));

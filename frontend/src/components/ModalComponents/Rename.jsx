@@ -35,10 +35,10 @@ const Rename = () => {
       name: currentChannel.name,
     },
     validationSchema: signUpSchema,
-    onSubmit: () => {
+    onSubmit: async () => {
       const { name } = formik.values;
       try {
-        api.renameChannel({ id: currentRenameId, name });
+        await api.renameChannel({ id: currentRenameId, name });
         toast.success(t('toast.rename'));
         setCloseModal();
       } catch (err) {
