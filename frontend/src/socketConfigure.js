@@ -7,9 +7,6 @@ const promosifySocket = (socket, type, data) => new Promise((resolve, reject) =>
     if (err) {
       reject(err);
     }
-    if (type === 'newChannel') {
-      store.dispatch(actions.setCurrentChannel(response.data.id));
-    }
     resolve(response);
   });
 });

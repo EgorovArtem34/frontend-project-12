@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import leoProfanity from 'leo-profanity';
 import { closeModal } from '../../slices/modalsSlice.js';
 import { useApi } from '../../hooks/index.jsx';
-import { selectors } from '../../slices/channelsSlice.js';
+import { selectors, actions } from '../../slices/channelsSlice.js';
 
 const Add = () => {
   const { t } = useTranslation();
@@ -38,7 +38,8 @@ const Add = () => {
     onSubmit: async () => {
       const { name } = formik.values;
       try {
-        await api.addNewChannel({ name, changeable: true });
+        const data = await api.addNewChannel({ name, changeable: true });
+        dispatch(actions.setCurrentChannel(data.id));
         setCloseModal();
         toast.success(t('toast.add'));
       } catch (err) {
